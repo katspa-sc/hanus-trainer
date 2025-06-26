@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Alg Trainer - comm categorization</title>
+    <link rel="icon" type="image/png" href="favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="favicon-16x16.png" sizes="16x16" />
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+    <div id="loader"></div>
+    <div style="display:none;" id="page" class="animate-bottom">
+
+        <p id="scramble" class="scramble" onclick="revealScramble(); copyScrambleAndCycle('scramble', 'cycle')">Scramble</p>
+        <p id="cycle" class="cycle" onclick="copyCyclePositions()">Cycle</p>
+        <!-- TODO ADD CONDITIONAL OBFUSCATION -->
+        <div class=column_left>
+
+            <div id="lastFetchLabel" style="margin-top: 10px; font-size: 16px;"></div>
+
+            <button id="fetchAlgsButton" class="large-button fetch-algs-button">Fetch algs</button>
+            <button id="applyPartialFilterButton" class="large-button">Filter algs</button>
+            <button id="letterSelector" class="large-button select-sets-button">Select sets</button>
+            <button id="resetSessionButton" class="large-button start-session-button">Start session</button>
+
+            <div class="mode-toggle">
+                <label class="toggle-container">
+                    <input type="checkbox" id="modeToggle" />
+                    <span class="toggle-slider" id="modeToggleLabel">Corner</span>
+                </label>
+            </div>
+
+            <!-- Hidden grid for letter selection -->
+            <div id="selectionGrid" class="selection-grid">
+                <!-- White row -->
+                <div class="grid-row white-row">
+                    <button class="gridButton large-grid-button white" data-letter="A">A</button>
+                    <button class="gridButton large-grid-button white" data-letter="O">O</button>
+                    <button class="gridButton large-grid-button white" data-letter="I">I</button>
+                </div>
+                <!-- Orange row -->
+                <div class="grid-row orange-row">
+                    <button class="gridButton large-grid-button orange" data-letter="E">E</button>
+                    <button class="gridButton large-grid-button orange" data-letter="F">F</button>
+                    <button class="gridButton large-grid-button orange" data-letter="G">G</button>
+                    <button class="gridButton large-grid-button orange" data-letter="H">H</button>
+                </div>
+                <!-- Green row -->
+                <div class="grid-row green-row">
+                    <button class="gridButton large-grid-button green" data-letter="J">J</button>
+                    <button class="gridButton large-grid-button green" data-letter="K">K</button>
+                    <button class="gridButton large-grid-button green" data-letter="L">L</button>
+                </div>
+                <!-- Red row -->
+                <div class="grid-row red-row">
+                    <button class="gridButton large-grid-button red" data-letter="N">N</button>
+                    <button class="gridButton large-grid-button red" data-letter="B">B</button>
+                    <button class="gridButton large-grid-button red" data-letter="P">P</button>
+                </div>
+                <!-- Blue row -->
+                <div class="grid-row blue-row">
+                    <button class="gridButton large-grid-button blue" data-letter="Q">Q</button>
+                    <button class="gridButton large-grid-button blue" data-letter="R">R</button>
+                    <button class="gridButton large-grid-button blue" data-letter="S">S</button>
+                    <button class="gridButton large-grid-button blue" data-letter="T">T</button>
+                </div>
+                <!-- Yellow row -->
+                <div class="grid-row yellow-row">
+                    <button class="gridButton large-grid-button yellow" data-letter="C">C</button>
+                    <button class="gridButton large-grid-button yellow" data-letter="D">D</button>
+                    <button class="gridButton large-grid-button yellow" data-letter="W">W</button>
+                    <button class="gridButton large-grid-button yellow" data-letter="Z">Z</button>
+                </div>
+            </div>
+
+            <!-- Hidden grid for toggling individual pairs -->
+            <div id="pairSelectionGrid" class="selection-grid" style="display: none;">
+                <h3 id="pairSelectionTitle" style="color: white; text-align: center;">Select Pairs for Letter</h3>
+                <div class="pair-grid-container">
+                    <div id="leftPairGrid" class="grid-column"></div>
+                    <div class="separator" style="width: 2px; background-color: white;"></div>
+                    <div id="rightPairGrid" class="grid-column"></div>
+                </div>
+                <button id="applyPairSelectionButton" class="large-button" style="margin-top: 20px;">Apply
+                    Selection</button>
+            </div>
+
+            <div id="missingCommsLabel" style="margin-top: 10px; font-size: 16px;"> Selected sets: </div>
+            <br></br>
+
+            <!-- <input id="userDefined" type="checkbox">Use user defined algset <button id="addSelected">Add currently selected algs</button><br> -->
+            <textarea id="userDefinedAlgs" cols=50 rows=20
+                placeholder="Place one alg per line. Lines starting with # will be ignored"></textarea>
+            <button id="orozcoButton">Orozco</button>
+            <button id="clearUserAlgsButton">Clear algs</button>
+
+            <button id="connectSmartCubeReplica" class="large-button">Connect</button>
+
+            <h2>Settings</h2>
+            <div class="hidden">
+                <label for="letterScheme">Custom Letter Scheme</label>
+                <input type="text" id="letterScheme" placeholder="Enter 54 letters order UFRDLB">
+                <button id="saveLetterScheme">Save</button>
+                <br />
+                <button id="resetLetterScheme">Reset to Default</button>
+                <br />
+                <label for="ttsLanguage">TTS Language</label>
+                <input type="text" id="ttsLanguage" placeholder="e.g., en-GB, pl-PL">
+                <button id="saveTTSLanguage">Save</button>
+                <br />
+
+                <form action="javascript:void(0);">
+
+                    <div>
+                        Holding cube at <input type="text" id="holdingOrientation" value="" size="4"> rotation away from
+                        WCA orientation<br>
+                    </div>
+                    <div>
+                        Initial mask: <br>
+                        <input id="initialMask" size="51" maxlength="54"
+                            placeholder="Enter a string of 54 characters all 'x' or '.'"><br>
+                    </div>
+                    <div>
+                        Final mask: <br>
+                        <input id="finalMask" size="51" maxlength="54"
+                            placeholder="Enter a string of 54 characters all 'x' or '.'"><br>
+                    </div>
+                    <input id="randAUF" type="checkbox">Random AUF<br>
+                    <input id="prescramble" type="checkbox" checked="true">Scramble subsequent steps (requires real
+                    scrambles to be checked)<br>
+                    <input id="goInOrder" type="checkbox">Go in order<br>
+                    <input id="goToNextCase" type="checkbox">Don't show alg after stopping timer (press the left arrow
+                    key to view previous case)<br>
+                    <input id="mirrorAllAlgs" type="checkbox">Mirror across M <input id="randomizeMMirror"
+                        type="checkbox">Randomize<br>
+                    <input id="mirrorAllAlgsAcrossS" type="checkbox">Mirror across S <input id="randomizeSMirror"
+                        type="checkbox">Randomize<br>
+
+            </div>
+            <input type="checkbox" id="orozcoCheckbox">Orozco corners<br>
+            <input type="checkbox" id="obfuscateScrambleCheckbox">Obfuscate scramble<br>
+            <input id="showScramble" type="checkbox">Display scrambles<br>
+            <input type="checkbox" id="enableTTS">Enable TTS<br>
+            <input id="useVirtual" type="checkbox">Use Virtual Cube<br>
+            <input id="hideTimer" type="checkbox">Hide timer<br>
+            <input id="includeRecognitionTime" type="checkbox">Include recognition time<br>
+            <input id="realScrambles" type="checkbox">Use Real Scrambles<br>
+
+            </form>
+            <div class="hidden">
+                <br>
+
+                Preorientation: <br>
+
+                <input id="fullCN" type="checkbox"> Full colour neutrality<br>
+                or<br>
+                Starting from WCA orientation: <br>
+                First do one
+                <input type="text" id="colourneutrality1" value="" size="2">
+                rotation<br>
+
+                then do a random number of
+                <input type="text" id="colourneutrality2" value="" size="2">
+                rotations, <br>
+
+                and finally do a random number of
+                <input type="text" id="colourneutrality3" value="" size="2">
+                rotations.<br>
+                <a href="scramblingNote.html">Note on preorientation settings</a>
+                <br><br>
+
+                <br>
+            </div>
+        </div>
+
+        <div class="column-placeholder">
+            <p> </p>
+        </div>
+
+        <div class=column_middle>
+            <div id="simcube">
+                <canvas id="cube" width="1200" height="1200"></canvas>
+            </div>
+
+            <div id="timer_div">
+                <p id="timer">0.00</p>
+            </div>
+
+            <div id="progressDisplay">
+                <p>Progress: 0/0</p>
+            </div>
+            <!-- <div id="feedbackButtons">
+                <button id="goodButton" class="feedback-button" style="background-color: green;">Good</button>
+                <button id="badButton" class="feedback-button" style="background-color: red;">Bad</button>
+            </div> -->
+
+            <!-- <div id="algdisplayer">
+                <p id="algdisp" class=algdisp>Solution</p>
+            </div> -->
+
+            <div id="controls">
+                <button id="goodButton" style="background-color: green; color: white;">Good</button>
+                <button id="badButton" style="background-color: red; color: white;">Bad</button>
+                <button id="connectSmartCube" name="connectSmartCube">Connect</button>
+            </div>
+        </div>
+
+
+
+        <div class=column_right>
+            <div id="visualcube"></div>
+            <!-- <p style="font-size: small;">Click the above cube to switch between flat and 3D view</p> -->
+
+            <button id="resetSession" class="biggerButton transparentBackground">Connect</button>
+            <br></br>
+
+            <div id="lastCycleInfo">
+                <p id="lastCycleLetters" onclick="copyCyclePositions('lastCycleLetters')">None</p>
+                <p class="feedback-last-comm" id="lastScramble" onclick="copyScrambleAndCycle('lastScramble', 'lastCycleLetters', true)">None</p>
+            </div>
+
+            <div id="feedbackResults">
+                <span id="goodLabel" style="color: green;">Good:</span>
+                <span id="goodList"></span>
+                <br>
+                <span id="badLabel" style="color: red;">Bad:</span>
+                <span id="badList"></span>
+                <br>
+                <span id="changeLabel" style="color: darkviolet;">Change/Drill alg:</span>
+                <span id="changeList"></span>
+            </div>
+            <br></br>
+            <button id="copyFeedbackButton" class="biggerButton transparentBackground">Copy lists</button>
+
+            <div id="scrollTimes" style="overflow-y: scroll; height:150px;">
+                <p id="timeList" style="text-align: left">&nbsp;</p>
+            </div>
+            <p id="statistics">&nbsp;</p>
+
+
+            <div style="text-align: left">
+                <button id="deleteLast">Delete last solve</button>
+                <button id="clearTimes">Clear all</button>
+                <br><br>
+                <table id="algsetStatistics">
+                </table>
+                <h4>Comm reps on this device: </h5>
+                    <h2>
+                        <div id="repetitionCounter">0</div>
+                    </h2>
+                    <!-- <h2>Instructions</h2>
+                <b>Enter/Tab/Space</b>: New scramble.<br>
+                <b>Space</b>: Stop timer and show algorithm.<br>
+                <b>Left and right arrow keys</b>: View previously tested algs. <br>
+                <b>Backspace</b>: Show algorithm without starting timer.
+
+                <h3>Virtual cube controls</h3>
+                Space: Stop timer, show algorithm and reset case.<br>
+                Timer will automatically stop if the cube is solved.<br>
+                Esc: Reset case without showing algorithm.<br>
+                <h4> View/Edit Keyboard Controls <a href="controls.html">here</a>. </h4>
+
+                Please report bugs by filing an issue <a href="https://github.com/tao-yu/Alg-Trainer/issues">here</a>,
+                or by messaging me on discord, Speedsolving.com or Reddit.
+
+                <br><br>-->
+                    This project is open source! Feel free to view and modify the source code at <a
+                        href="https://github.com/tao-yu/Alg-Trainer">the Github repository</a> subject to the MIT
+                    licence.
+                    Pull requests are welcomed, though it may be wise to message me about any changes you wish to make
+                    before sending such requests.
+
+            </div>
+        </div>
+    </div>
+
+    <audio id="completionJingle" src="molang_wow.ogg" preload="auto"></audio>
+    <audio id="drillJingle" src="linkedin_1.ogg" preload="auto"></audio>
+    <audio id="goodJingle" src="good.ogg" preload="auto"></audio>
+
+    <script src="js/cube.js"></script>
+    <script src="js/solve.js"></script>
+    <script src="js/alg_jison.js"></script>
+    <script src="js/alg.js"></script>
+    <script src="js/visualCube.js"></script>
+    <script src="js/helpers.js"></script>
+    <script src="js/controls.js"></script>
+    <script src="js/alg_list.js"></script>
+    <script src="js/lzstring.js"></script>
+    <script src="js/encryption.js"></script>
+    <script src="js/isaac.js"></script>
+    <script src="js/mathlib.js"></script>
+    <script src="js/smartCube.js"></script>
+    <script src="js/keymaps.js"></script>
+    <script src="js/RubiksCube.js"></script>
+
+</body>
+
+</html>

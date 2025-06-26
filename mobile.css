@@ -1,0 +1,415 @@
+html {
+    height: 100%;
+
+    overflow: hidden;
+}
+
+:root {
+    --primary-color: #1c1d22;
+    --secondary-color: #282c34;
+}
+
+body {
+
+    font-family: Arial;
+    background: var(--primary-color);
+    min-height: 100vh;
+    overflow: hidden;
+    display: flex;
+    margin: 3px;
+}
+
+p {
+    font-family: Arial;
+    font-size: 20px;
+    color: white;
+}
+
+hr {
+    display: block;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    margin-left: auto;
+    margin-right: auto;
+    border-style: inset;
+    border-width: 0.5px;
+    border-color: #303030;
+    width: 100%;
+}
+
+#timer {
+    font-family: Arial;
+    font-size: 30px;
+    color: white;
+}
+
+#statistics {
+    font-size: 20px;
+}
+
+#flexbox {
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - 50px); /* Subtract the height of the controls */
+}
+
+p.scramble {
+    height: 0%;
+    margin: 0%;
+    margin-top: 10px;
+    vertical-align: middle;
+    text-align: center;
+    font-size: 45px;
+}
+
+p.cycle {
+    vertical-align: middle; 
+    text-align: center;
+    font-size: 60px;
+    margin: 1%;
+  }
+
+table {
+    border-collapse: collapse;
+}
+
+th,
+td,
+tr {
+    border: none;
+}
+
+#touchStartArea {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 90%;
+
+}
+
+#page {
+
+    margin: 0;
+    padding: 0;
+
+    display: none;
+    height: 100%;
+    width: 100%;
+    min-height: 100vh;
+
+}
+
+#left_popup {
+    display: none;
+    position: fixed;
+    top: 10%;
+    left: 5%;
+    right: 5%;
+    bottom: 10%;
+    width: 90%;
+    height: 80vh;
+    z-index: 9999;
+    background-color: var(--secondary-color);
+}
+
+#right_popup {
+    display: none;
+    position: fixed;
+    top: 10%; /* Same as #left_popup */
+    left: 5%; /* Same as #left_popup */
+    right: 5%; /* Same as #left_popup */
+    bottom: 10%; /* Add this to limit the height */
+    width: 90%; /* Same as #left_popup */
+    height: auto; /* Let the height adjust dynamically */
+    max-height: 80%; /* Ensure it doesn't exceed 80% of the viewport height */
+    z-index: 9999;
+    background-color: var(--secondary-color); /* Same as #left_popup */
+    overflow: auto; /* Enable scrolling if content overflows */
+    border-radius: 8px; /* Optional: Add rounded corners */
+    padding: 20px; /* Optional: Add padding for better spacing */
+}
+
+.column_left {
+    position: absolute;
+    height: 70vh;
+    overflow: auto;
+    padding: 20px;
+    background-color: var(--secondary-color);
+    color: white;
+    font-size: 18px;
+}
+
+.column_right {
+    position: absolute;
+    height: 70vh;
+    overflow: auto;
+    padding: 20px;
+    background-color: var(--secondary-color);
+    color: white;
+    font-size: 18px;
+}
+
+.column_middle {
+    text-align: center;
+    width: 100%;
+    height: 100%;
+}
+
+.algsetpicker {
+    width: 70%;
+}
+
+a:link {
+    color: cornflowerblue
+}
+
+a:visited {
+    color: darkslateblue
+}
+
+.scramble.obfuscated {
+    color: transparent; /* Hide the text */
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.5), /* Add a glowing effect */
+                 0 0 15px rgba(255, 255, 255, 0.5); /* Repeat for stronger blur */
+    cursor: pointer; /* Indicate interactivity */
+    filter: blur(15px); /* Add a blur effect */
+    transition: filter 0.3s ease, text-shadow 0.3s ease; /* Smooth transition for the blur effect */
+    letter-spacing: 5px; /* Add spacing to make the text length harder to infer */
+}
+
+.scramble.revealed {
+    color: white; /* Show the text */
+    text-shadow: none;
+    filter: none; /* Remove the blur effect */
+}
+
+#loader {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 1;
+    margin: -75px 0 0 -75px;
+    border: 16px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 16px solid white;
+    border-right: 16px solid red;
+    border-bottom: 16px solid green;
+    border-left: 16px solid orange;
+    width: 120px;
+    height: 120px;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+}
+
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Add animation to "page content" */
+/*
+.animate-bottom {
+    position: relative;
+    -webkit-animation-name: animatebottom;
+    -webkit-animation-duration: 1s;
+    animation-name: animatebottom;
+    animation-duration: 1s
+}
+
+@-webkit-keyframes animatebottom {
+    from {
+        bottom: -100px;
+        opacity: 0
+    }
+
+    to {
+        bottom: 0px;
+        opacity: 1
+    }
+}
+
+@keyframes animatebottom {
+    from {
+        bottom: -100px;
+        opacity: 0
+    }
+
+    to {
+        bottom: 0;
+        opacity: 1
+    }
+}*/
+
+
+
+.big_button {
+    background-color: #4570de; 
+    border: none;
+    color: white;
+    margin: 3px;
+    font-size: 18px;
+}
+
+.arrow_button {
+    flex: 1;
+    padding: 10px;
+}
+
+
+.on_screen_controls {
+    position: fixed; /* Ensure the buttons stay in place */
+    bottom: 50px;    /* Place them slightly above the bottom (adjust as needed) */
+    left: 0;
+    width: 100%;     /* Make them span the full width */
+    display: flex;
+    justify-content: space-around; /* Distribute buttons evenly */
+    background-color: var(--secondary-color); /* Optional: Add a background color */
+    padding: 10px 0; /* Optional: Add padding for better spacing */
+}
+
+.sidebar_buttons {
+    position: fixed; /* Ensure the buttons stay in place */
+    bottom: 0;       /* Align them to the bottom of the viewport */
+    left: 0;
+    width: 100%;     /* Make them span the full width */
+    display: flex;
+    justify-content: space-around; /* Distribute buttons evenly */
+    background-color: var(--secondary-color); /* Optional: Add a background color */
+    padding: 10px 0; /* Optional: Add padding for better spacing */
+}
+
+.sidebar_button {
+    flex: 1;
+    margin: 3px;
+    background-color: #4570de; 
+    color: white;
+    border: none;
+    font-size: 18px;
+}
+
+.flex-item {
+    flex: 2;
+    padding: 10px;
+}
+
+canvas {
+    width: 300px;
+    height: 300px;
+}
+
+.multiselect-container {
+    /* margin-top: 10px; */
+    display: flex;
+    flex-wrap: wrap;
+}
+.multiselect-item {
+    margin-right: 10px;
+}
+.select-label {
+    margin-bottom: 5px; 
+    display: block; 
+}
+.button {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 18px;
+    padding: 10px 20px;
+    background-color: #4570de;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.button-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1px; 
+}
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    text-align: center;
+}
+.cube-select-button {
+    margin: 1px;
+    padding: 5px 5px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    text-align: center;
+    color: var(--primary-color);
+}
+.textbox-container {
+    display: flex;
+    margin-top: 7px;
+    gap: 10px;
+    display: inline-block;
+}
+.textbox-container input {
+    padding: 10px;
+    font-size: 16px;
+    margin-right: 10px;
+}
+.hidden {
+    display: none;
+}
+pre {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 18px;
+    line-height: 1.5;
+}
+.multiselect-container {
+    /* margin-top: 10px; */
+    display: flex;
+    flex-wrap: wrap;
+}
+.multiselect-item {
+    margin-right: 10px;
+}
+
+#progressDisplay {
+    color: white; /* Explicitly set the text color */
+    font-size: 18px; /* Adjust font size for better visibility */
+    text-align: center; /* Center the text */
+    margin-top: 10px; /* Add spacing */
+}
+
+.cubeSelectButtons {
+    position: absolute;  /* Position it absolutely */
+    top: 0;  
+}
+
+html, body {touch-action: none;}
+
+@media (max-width: 768px) {
+    #left_popup {
+        top: 5%; /* Adjust position for smaller screens */
+        left: 5%;
+        width: 90%; /* Make it wider on smaller screens */
+        max-height: 80%; /* Allow more height */
+    }
+
+    #left_popup textarea {
+        font-size: 14px; /* Reduce font size for textareas */
+    }
+
+    #left_popup input {
+        font-size: 14px; /* Reduce font size for inputs */
+    }
+}

@@ -1,0 +1,237 @@
+<!DOCTYPE html><html>
+
+<head>
+    <title>Alg Trainer Mobile (beta)</title>
+    <link rel="icon" type="image/png" href="favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="favicon-16x16.png" sizes="16x16" />
+    <link rel="stylesheet" type="text/css" href="mobile.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+
+</head>
+
+<body>
+    <div style="display:none;" id="page" class="animate-bottom">
+        <div id="flexbox">
+
+            <div class="sidebar_buttons">
+                <button id="left_popup_button" class="sidebar_button">Settings</button>
+                <p></p>
+                <button id="right_popup_button" class="sidebar_button">Times</button>
+            </div>
+
+            <div class="on_screen_controls">
+                <button id="onscreenLeft" class="big_button arrow_button">&lt</button>
+                <!-- <button class="big_button flex-item" onclick="displayAlgorithmForPreviousTest()">Solution</button> -->
+                <button class="big_button flex-item" onclick="nextScramble()">Next</button>
+                <button class="big_button flex-item" id="connectSmartCube">Connect</button>
+                <button id="onscreenRight" class="big_button arrow_button">&gt</button>
+            </div>
+
+
+            <p id="scramble" class=scramble>Scramble</p>
+            <hr>
+            <p id="cycle" class=cycle>Cycle</p>
+
+            <div id="touchStartArea">
+
+                <div class=column_middle>
+                    <div id="simcube">
+                        <canvas id="cube" width="1200" height="1200"></canvas>
+                    </div>
+
+                    <div id="timer_div">
+                        <p id="timer">0.00</p>
+                    </div>
+
+                    <!-- <div id="algdisplayer">
+                        <p id="algdisp" class=algdisp>Solution</p>
+                    </div> -->
+
+                    <div id="progressDisplay">
+                        <p>Progress: 0/0</p>
+                    </div>
+        
+
+
+                </div>
+
+            </div>
+            <div class="container">
+                <div id="cubeSelectButtons"></div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="loader"></div>
+
+    <div style="display:none;" id="page" class="animate-bottom">
+        <div id="flexbox">
+
+            <div class="sidebar_buttons">
+                <button id="left_popup_button" class="sidebar_button">Settings</button>
+                <p></p>
+                <button id="right_popup_button" class="sidebar_button">Times</button>
+            </div>
+
+            <div class="on_screen_controls">
+                <button id="onscreenLeft" class="big_button arrow_button">&lt</button>
+                <button class="big_button flex-item" onclick="displayAlgorithmForPreviousTest()">Solution</button>
+                <button class="big_button flex-item" onclick="nextScramble()">Next</button>
+                <button id="onscreenRight" class="big_button arrow_button">&gt</button>
+            </div>
+
+
+            <p id="scramble" class="scramble obfuscated" onclick="revealScramble()">Scramble</p>
+            <hr>
+            <p id="cycle" class=cycle>Cycle</p>
+
+            <div id="touchStartArea">
+
+                <div class=column_middle>
+                    <div id="simcube">
+                        <canvas id="cube" width="1200" height="1200"></canvas>
+                    </div>
+
+                    <div id="timer_div">
+                        <p id="timer">0.00</p>
+                    </div>
+
+                    <div id="algdisplayer">
+                        <p id="algdisp" class=algdisp>Solution</p>
+                    </div>
+
+
+                </div>
+
+            </div>
+            <div class="container">
+                <div id="cubeSelectButtons"></div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="left_popup">
+        <div class=column_left>
+
+            Enter algs:
+            <!-- <input id="userDefined" type="checkbox">Use user defined algset <button id="addSelected">Add currently selected algs</button><br> -->
+            <button id="clearUserAlgsButton" class="biggerButton transparentBackground">Clear algs</button>
+            <button id="orozcoButton" class="biggerButton">Orozco</button>
+            <textarea id="userDefinedAlgs" cols=50 rows=20
+                placeholder="Place one alg per line. Lines starting with # will be ignored"></textarea>
+
+            <h2>Settings</h2>
+
+            <h4>Comm reps on this device: <div id="repetitionCounter">0</div></h5>
+
+            <form action="javascript:void(0);">
+                <input id="enableTTS" type="checkbox">Enable TTS<br>
+                <input id="useVirtual" type="checkbox">Use Virtual Cube<br>
+                <input id="hideTimer" type="checkbox">Hide timer<br>
+                <input id="includeRecognitionTime" type="checkbox">Include recognition time<br>
+                <input id="showScramble" type="checkbox">Show Scramble<br>
+                <input id="realScrambles" type="checkbox">Use Real Scrambles<br>
+
+                <div class="hidden">>
+                    <div>
+                        Holding cube at <input type="text" id="holdingOrientation" value="" size="4"> rotation away from
+                        WCA orientation<br>
+                    </div>
+                    <div>
+                        Initial mask: <br>
+                        <input id="initialMask" size="51" maxlength="54"
+                            placeholder="Enter a string of 54 characters all 'x' or '.'"><br>
+                    </div>
+                    <div>
+                        Final mask: <br>
+                        <input id="finalMask" size="51" maxlength="54"
+                            placeholder="Enter a string of 54 characters all 'x' or '.'"><br>
+                    </div>
+
+                    <input id="randAUF" type="checkbox">Random AUF<br>
+                    <input id="prescramble" type="checkbox" checked="true">Scramble subsequent steps (requires real
+                    scrambles to be checked)<br>
+                    <input id="goInOrder" type="checkbox">Go in order<br>
+                    <input id="goToNextCase" type="checkbox">Don't show alg after stopping timer (press the left arrow
+                    key to view previous case)<br>
+                    <input id="mirrorAllAlgs" type="checkbox">Mirror across M
+                    <input id="randomizeMMirror" type="checkbox">Randomize<br>
+                    <input id="mirrorAllAlgsAcrossS" type="checkbox">Mirror across S
+                    <input id="randomizeSMirror" type="checkbox">Randomize<br>
+                </div>
+
+            </form>
+            <br>
+            <div class="hidden">
+                Preorientation: <br>
+
+                <input id="fullCN" type="checkbox"> Full colour neutrality<br>
+                or<br>
+                Starting from WCA orientation: <br>
+                First do one
+                <input type="text" id="colourneutrality1" value="" size="2">
+                rotation<br>
+
+                then do a random number of
+                <input type="text" id="colourneutrality2" value="" size="2">
+                rotations, <br>
+
+                and finally do a random number of
+                <input type="text" id="colourneutrality3" value="" size="2">
+                rotations.<br>
+                <a href="scramblingNote.html">Note on preorientation settings</a>
+                <br><br>
+
+                <br>
+
+                Currently Qiyi and Moyu V10 smart cubes are supported.<br><br>
+            </div>
+        </div>
+    </div>
+
+    <div id="right_popup">
+
+        <div class=column_right>
+            <div id="visualcube"></div>
+            <!-- <p style="font-size: small;">Click the above cube to switch between flat and 3D view</p> -->
+
+            <div id="scrollTimes" style="overflow-y: scroll; height:150px;">
+                <p id="timeList" style="text-align: left">&nbsp</p>
+            </div>
+            <p id="statistics">&nbsp</p>
+
+            <div style="text-align: left">
+                <button id="deleteLast">Delete last solve</button>
+                <button id="clearTimes">Clear all</button>
+                <br><br>
+                <table id="algsetStatistics">
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <audio id="completionJingle" src="molang_wow.ogg" preload="auto"></audio>
+    <audio id="drillJingle" src="linkedin_1.ogg" preload="auto"></audio>
+    <audio id="goodJingle" src="good.ogg" preload="auto"></audio>
+
+    <script src="js/cube.js"></script>
+    <script src="js/solve.js"></script>
+    <script src="js/alg_jison.js"></script>
+    <script src="js/alg.js"></script>
+    <script src="js/visualCube.js"></script>
+    <script src="js/helpers.js"></script>
+    <script src="js/controls.js"></script>
+    <script src="js/alg_list.js"></script>
+    <script src="js/lzstring.js"></script>
+    <script src="js/encryption.js"></script>
+    <script src="js/isaac.js"></script>
+    <script src="js/mathlib.js"></script>
+    <script src="js/smartCube.js"></script>
+    <script src="js/keymaps.js"></script>
+    <script src="js/RubiksCube.js"></script>
+</body>
+
+</html>
