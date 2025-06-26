@@ -2723,7 +2723,7 @@ function formatListWithHighlight(list, highlightItem) {
 }
 
 function customComparator(a, b) {
-    const letterOrder = "AOIEFGHJJKLMNBPQTSRCDWZ"; // Custom letter order
+    const letterOrder = "ABCEFGHIKLNOPDTSRUWZY"; // Custom letter order
     const getOrder = (letter) => letterOrder.indexOf(letter);
 
     // Compare the first letters of the cycle pairs
@@ -3144,18 +3144,18 @@ document.getElementById("letterSelector").addEventListener("click", function () 
         toggleButton.addEventListener("click", () => {
             // Determine if all sets are currently toggled on
             const allToggled = Object.values(selectedSets).every(state => state);
-
+    
             // Toggle all sets
             Object.keys(selectedSets).forEach(setName => {
-                selectedSets[setName] = !allToggled; // Toggle all sets based on the current state
+                selectedSets[setName] = !allToggled; // Toggle based on the current state
             });
-
+    
             // Update the visual state of the buttons
             document.querySelectorAll(".gridButton").forEach(button => {
                 const setName = button.dataset.letter;
                 button.classList.toggle("untoggled", !selectedSets[setName]); // Update appearance
             });
-
+    
             saveSelectedSets(); // Save the updated state to localStorage
             updateUserDefinedAlgs(); // Update the textbox with combined algorithms
         });
@@ -3253,7 +3253,7 @@ document.addEventListener("DOMContentLoaded", function () {
     loadSelectedSets(); // Load selected sets
 });
 
-const ALL_LETTERS = "AOIEFGHJKLNBPQTSRCDWZ".split(""); // Array of all letters
+const ALL_LETTERS = "ABCEFGHIKLNOPDTSRUWZY".split(""); // Array of all letters
 
 // Predefined excluded trios
 const EXCLUDED_TRIOS_CORNERS = [
@@ -3743,6 +3743,7 @@ const single_letter_map = {
     "T": "te",
     "U": "u",
     "W": "wu",
+    "Y": "igrek",
     "Z": "zet"
 };
 
