@@ -79,7 +79,7 @@ const LETTER_COLORS = {
     "K": { background: "#00FF00", text: "black" }, // Green
     "L": { background: "#00FF00", text: "black" }, // Green
     "N": { background: "#EA4335", text: "black" }, // Red
-    "B": { background: "#EA4335", text: "black" }, // Red
+    "O": { background: "#EA4335", text: "black" }, // Red
     "P": { background: "#EA4335", text: "black" }, // Red
     "D": { background: "#4285F4", text: "white" }, // Blue
     "Q": { background: "#4285F4", text: "white" }, // Blue
