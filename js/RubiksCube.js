@@ -68,25 +68,27 @@ const CORNER_PIECE_MAP = {
 
 const LETTER_COLORS = {
     "A": { background: "#EFEFEF", text: "black" }, // White
-    "O": { background: "#EFEFEF", text: "black" }, // White
-    "I": { background: "#EFEFEF", text: "black" }, // White
+    "B": { background: "#EFEFEF", text: "black" }, // White
+    "C": { background: "#EFEFEF", text: "black" }, // White
     "E": { background: "#FF9900", text: "black" }, // Orange
     "F": { background: "#FF9900", text: "black" }, // Orange
     "G": { background: "#FF9900", text: "black" }, // Orange
     "H": { background: "#FF9900", text: "black" }, // Orange
+    "I": { background: "#00FF00", text: "black" }, // Green
     "J": { background: "#00FF00", text: "black" }, // Green
     "K": { background: "#00FF00", text: "black" }, // Green
     "L": { background: "#00FF00", text: "black" }, // Green
     "N": { background: "#EA4335", text: "black" }, // Red
     "B": { background: "#EA4335", text: "black" }, // Red
     "P": { background: "#EA4335", text: "black" }, // Red
+    "D": { background: "#4285F4", text: "white" }, // Blue
     "Q": { background: "#4285F4", text: "white" }, // Blue
     "R": { background: "#4285F4", text: "white" }, // Blue
     "S": { background: "#4285F4", text: "white" }, // Blue
     "T": { background: "#4285F4", text: "white" }, // Blue
-    "C": { background: "#FFD700", text: "black" }, // Yellow
-    "D": { background: "#FFD700", text: "black" }, // Yellow
+    "U": { background: "#FFD700", text: "black" }, // Yellow
     "W": { background: "#FFD700", text: "black" }, // Yellow
+    "Y": { background: "#FFD700", text: "black" }, // Yellow
     "Z": { background: "#FFD700", text: "black" }  // Yellow
 };
 
