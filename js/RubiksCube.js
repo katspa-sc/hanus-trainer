@@ -8,85 +8,85 @@ const SOLVED_POSITIONS = [
     [6, 45], [6, 46], [6, 47], [6, 48], [6, 49], [6, 50], [6, 51], [6, 52], [6, 53]  // B 
 ];
 const POSITION_TO_LETTER_MAP = {
-    0: 'A', 1: 'A', 2: 'O', 3: 'I', 4: 'UC', 5: 'O', 6: 'I', 7: 'Y', 8: 'Y',
-    9: 'M', 10: 'M', 11: 'N', 12: 'P', 13: 'RC', 14: 'N', 15: 'P', 16: 'B', 17: 'B',
-    18: 'J', 19: 'U', 20: 'U', 21: 'L', 22: 'FC', 23: 'J', 24: 'L', 25: 'K', 26: 'K',
-    27: 'C', 28: 'C', 29: 'D', 30: 'Z', 31: 'DC', 32: 'D', 33: 'Z', 34: 'W', 35: 'W',
+    0: 'A', 1: 'A', 2: 'B', 3: 'C', 4: 'UC', 5: 'B', 6: 'C', 7: 'Q', 8: 'Q',
+    9: 'M', 10: 'M', 11: 'N', 12: 'P', 13: 'RC', 14: 'N', 15: 'P', 16: 'O', 17: 'O',
+    18: 'I', 19: 'I', 20: 'J', 21: 'L', 22: 'FC', 23: 'J', 24: 'L', 25: 'K', 26: 'K',
+    27: 'U', 28: 'U', 29: 'W', 30: 'Y', 31: 'DC', 32: 'W', 33: 'Y', 34: 'Z', 35: 'Z',
     36: 'E', 37: 'E', 38: 'F', 39: 'H', 40: 'LC', 41: 'F', 42: 'H', 43: 'G', 44: 'G',
-    45: 'Q', 46: 'Q', 47: 'R', 48: 'T', 49: 'BC', 50: 'R', 51: 'T', 52: 'S', 53: 'S'
+    45: 'D', 46: 'D', 47: 'R', 48: 'T', 49: 'BC', 50: 'R', 51: 'T', 52: 'S', 53: 'S'
 };
 
 // Maps for edge and corner piece notation
 const EDGE_PIECE_MAP = {
     "A": "UB",
-    "O": "UR",
-    "I": "UL",
+    "B": "UR",
+    "C": "UL",
     "E": "LU",
     "F": "LF",
     "G": "LD",
     "H": "LB",
-    "J": "FL",
+    "J": "FR",
     "K": "FD",
-    "L": "FR",
+    "L": "FL",
     "M": "RU",
     "N": "RB",
-    "B": "RD",
+    "O": "RD",
     "P": "RF",
-    "Q": "BU",
+    "D": "BU",
     "R": "BL",
     "S": "BD",
     "T": "BR",
-    "C": "DF",
-    "D": "DR",
-    "W": "DB",
-    "Z": "DL",
+    "U": "DF",
+    "W": "DR",
+    "Z": "DB",
+    "Y": "DL",
 };
 
 const CORNER_PIECE_MAP = {
     "A": "UBL",
-    "O": "UBR",
-    "I": "UFL",
+    "B": "UBR",
+    "C": "UFL",
     "E": "LUB",
     "F": "LUF",
     "G": "LDF",
     "H": "LDB",
-    "J": "FUL",
+    "I": "FUL",
     "K": "FDR",
     "L": "FDL",
     "N": "RUB",
-    "B": "RDB",
+    "O": "RDB",
     "P": "RDF",
-    "Q": "BUR",
+    "D": "BUR",
     "R": "BUL",
     "S": "BDL",
     "T": "BDR",
-    "C": "DFL",
-    "D": "DFR",
-    "W": "DBR",
-    "Z": "DBL",
+    "U": "DFL",
+    "W": "DFR",
+    "Z": "DBR",
+    "Y": "DBL",
 };
 
 const LETTER_COLORS = {
     "A": { background: "#EFEFEF", text: "black" }, // White
-    "O": { background: "#EFEFEF", text: "black" }, // White
-    "I": { background: "#EFEFEF", text: "black" }, // White
+    "B": { background: "#EFEFEF", text: "black" }, // White
+    "C": { background: "#EFEFEF", text: "black" }, // White
     "E": { background: "#FF9900", text: "black" }, // Orange
     "F": { background: "#FF9900", text: "black" }, // Orange
     "G": { background: "#FF9900", text: "black" }, // Orange
     "H": { background: "#FF9900", text: "black" }, // Orange
-    "J": { background: "#00FF00", text: "black" }, // Green
+    "I": { background: "#00FF00", text: "black" }, // Green
     "K": { background: "#00FF00", text: "black" }, // Green
     "L": { background: "#00FF00", text: "black" }, // Green
     "N": { background: "#EA4335", text: "black" }, // Red
-    "B": { background: "#EA4335", text: "black" }, // Red
+    "O": { background: "#EA4335", text: "black" }, // Red
     "P": { background: "#EA4335", text: "black" }, // Red
-    "Q": { background: "#4285F4", text: "white" }, // Blue
+    "D": { background: "#4285F4", text: "white" }, // Blue
     "R": { background: "#4285F4", text: "white" }, // Blue
     "S": { background: "#4285F4", text: "white" }, // Blue
     "T": { background: "#4285F4", text: "white" }, // Blue
-    "C": { background: "#FFD700", text: "black" }, // Yellow
-    "D": { background: "#FFD700", text: "black" }, // Yellow
+    "U": { background: "#FFD700", text: "black" }, // Yellow
     "W": { background: "#FFD700", text: "black" }, // Yellow
+    "Y": { background: "#FFD700", text: "black" }, // Yellow
     "Z": { background: "#FFD700", text: "black" }  // Yellow
 };
 
@@ -3258,28 +3258,28 @@ const ALL_LETTERS = "AOIEFGHJKLNBPQTSRCDWZ".split(""); // Array of all letters
 // Predefined excluded trios
 const EXCLUDED_TRIOS_CORNERS = [
     ["A", "E", "R"], // Trio 1
-    ["O", "Q", "N"], // Trio 2
-    ["I", "J", "F"], // Trio 3
-    ["C", "G", "L"], // Trio 4
-    ["D", "K", "P"], // Trio 5
-    ["W", "B", "T"], // Trio 6
-    ["Z", "S", "H"], // Trio 7
-    ["U", "Y", "M"], // buffer
+    ["B", "D", "N"], // Trio 2
+    ["C", "I", "F"], // Trio 3
+    ["U", "G", "L"], // Trio 4
+    ["W", "K", "P"], // Trio 5
+    ["Z", "B", "T"], // Trio 6
+    ["Y", "S", "H"], // Trio 7
+    ["Q", "J", "M"], // buffer
 ];
 
 const EXCLUDED_DUOS_EDGES = [
-    ["A", "Q"], // Duo 1
-    ["O", "M"], // Duo 2
-    ["I", "E"], // Duo 3
+    ["A", "D"], // Duo 1
+    ["B", "M"], // Duo 2
+    ["C", "E"], // Duo 3
     ["F", "L"], // Duo 4
-    ["G", "Z"], // Duo 5
+    ["G", "Y"], // Duo 5
     ["H", "R"], // Duo 6
     ["J", "P"], // Duo 7
-    ["K", "C"], // Duo 7
-    ["N", "R"], // Duo 7
-    ["B", "D"], // Duo 7
-    ["S", "W"], // Duo 7
-    ["U", "Y"], // buffer
+    ["K", "U"], // Duo 7
+    ["N", "T"], // Duo 7
+    ["O", "W"], // Duo 7
+    ["S", "Z"], // Duo 7
+    ["Q", "I"], // buffer
 ];
 
 function findMissingCombinations(selectedLetter, algs) {
